@@ -1,0 +1,5 @@
+stages:
+  prepare:
+    cmd: python prepare_data.py
+    outs:
+      - datasets/preprocessed_data.csv
