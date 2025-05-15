@@ -1,5 +1,14 @@
-pandas
-scikit-learn
-torch
-tensorflow
-dvc
+#pandas
+#scikit-learn
+#torch
+#tensorflow
+#dvc
+
+# nh
+fastapi
+requests
+#httptools==0.1.*
+httptools
+uvloop
+uvicorn
+python-multipart
