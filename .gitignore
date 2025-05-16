@@ -8,3 +8,12 @@ __pycache__/
 .idea/
 *.log
 .venv/
+# Empêche les fichiers de modèle d’être re-trackés
+*.pt
+*.pth
+*.joblib
+*.safetensors
+
+# Pour éviter les fichiers temporaires
+*.log
+*.tmp
