@@ -1,0 +1,68 @@
+{
+  "best_global_step": 340,
+  "best_metric": 0.8079780350368586,
+  "best_model_checkpoint": "/Users/mehdimalhas/DataScientest/Datascientest-Rakuten/Projet MLOps/rakuten_mlops/app/models/camembert_retrained/checkpoint-340",
+  "epoch": 2.0,
+  "eval_steps": 500,
+  "global_step": 340,
+  "is_hyper_param_search": false,
+  "is_local_process_zero": true,
+  "is_world_process_zero": true,
+  "log_history": [
+    {
+      "epoch": 1.0,
+      "grad_norm": 0.1384480744600296,
+      "learning_rate": 3.3333333333333335e-05,
+      "loss": 0.7379,
+      "step": 170
+    },
+    {
+      "epoch": 1.0,
+      "eval_accuracy": 0.7764705882352941,
+      "eval_f1": 0.767487414546238,
+      "eval_loss": 0.978898823261261,
+      "eval_runtime": 3.5905,
+      "eval_samples_per_second": 23.673,
+      "eval_steps_per_second": 6.127,
+      "step": 170
+    },
+    {
+      "epoch": 2.0,
+      "grad_norm": 0.07600388675928116,
+      "learning_rate": 1.6666666666666667e-05,
+      "loss": 0.2994,
+      "step": 340
+    },
+    {
+      "epoch": 2.0,
+      "eval_accuracy": 0.8117647058823529,
+      "eval_f1": 0.8079780350368586,
+      "eval_loss": 0.954888641834259,
+      "eval_runtime": 1.4353,
+      "eval_samples_per_second": 59.22,
+      "eval_steps_per_second": 15.327,
+      "step": 340
+    }
+  ],
+  "logging_steps": 50,
+  "max_steps": 510,
+  "num_input_tokens_seen": 0,
+  "num_train_epochs": 3,
+  "save_steps": 500,
+  "stateful_callbacks": {
+    "TrainerControl": {
+      "args": {
+        "should_epoch_stop": false,
+        "should_evaluate": false,
+        "should_log": false,
+        "should_save": true,
+        "should_training_stop": false
+      },
+      "attributes": {}
+    }
+  },
+  "total_flos": 178692507786240.0,
+  "train_batch_size": 4,
+  "trial_name": null,
+  "trial_params": null
+}

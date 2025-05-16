@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, Form
+from fastapi import APIRouter, UploadFile, File, Form, Query
 from fastapi.responses import JSONResponse
 import pandas as pd
 import io
@@ -30,19 +30,24 @@ async def preprocess_text_manual(
 
 
 @router.post("/text/file", summary="Text preprocessing (cvs file entry)")
-async def preprocess_text(file: UploadFile = File(...)):
+async def preprocess_text(
+    file: UploadFile = File(...),
+    sample_size: int = Query(5, description="Number of samples to process (max)")
+):
     try:
         contents = await file.read()
-        df = pd.read_csv(io.BytesIO(contents)).head(5)
+        df = pd.read_csv(io.BytesIO(contents))
+
+        subset_df = df.sample(n=min(sample_size, len(df)), random_state=42)
 
         required_cols = {'designation', 'description'}
-        if not required_cols.issubset(df.columns):
+        if not required_cols.issubset(subset_df.columns):
             return JSONResponse(
                 status_code=400,
                 content={"error": f"Missing required columns: {required_cols - set(df.columns)}"}
             )
 
-        txt_cleaned = preprocess_txt(df)
+        txt_cleaned = preprocess_txt(subset_df)
         return {"cleaned_text": txt_cleaned.tolist()}
 
     except Exception as e:
