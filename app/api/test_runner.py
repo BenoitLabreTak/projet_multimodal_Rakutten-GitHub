@@ -4,12 +4,12 @@ from app.services.run_tests import run_pytest_test
 router = APIRouter()
 
 @router.get("/preprocess/text/manual")
-def test_text_manual():
-    return run_pytest_test("tests/test_api_text.py")
+def test_preproces_text():
+    return run_pytest_test("tests/test_api_preprocess_text.py")
 
 @router.get("/preprocess/image")
-def test_text_manual():
-    return run_pytest_test("tests/test_api_image.py")
+def test_preprocess_image():
+    return run_pytest_test("tests/test_api_preprocess_image.py")
 
 @router.get("/predict/text/manual")
 def test_text_manual():
