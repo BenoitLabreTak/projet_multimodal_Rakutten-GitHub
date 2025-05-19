@@ -3,6 +3,7 @@ from fastapi import Query
 from fastapi.responses import JSONResponse
 import pandas as pd
 import io
+import app.core.config as config
 
 from app.services.model_image_prediction import evaluate_image_model_on_dataset
 
@@ -12,7 +13,7 @@ router = APIRouter()
 async def evaluate_image_file_api(
     file: UploadFile = File(...),
     sample_size: int = Query(50, description="Nombre d'images à évaluer"),
-    image_dir: str = Query(..., description="Chemin vers le dossier contenant les images")
+    image_dir: str = Query(config.DATASET_IMAGE_DIR_TEST, description="Chemin du dossier contenant les images")
 ):
     try:
         contents = await file.read()
