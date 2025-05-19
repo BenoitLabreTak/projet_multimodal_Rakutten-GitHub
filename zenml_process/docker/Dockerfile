@@ -7,6 +7,7 @@ WORKDIR /app
 COPY ./requirements.txt ./
 RUN apt update && \
     apt install -y python3-opencv && \
+    rm -rf /var/lib/apt/lists/* && \
     pip install --no-cache-dir -r requirements.txt && \
     zenml integration install -y s3 pytorch
 # Copie le dossier pipelines dans l'image
