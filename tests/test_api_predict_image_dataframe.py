@@ -1,8 +1,5 @@
 import pytest
-from fastapi.testclient import TestClient
-from app.main import app
-
-client = TestClient(app)
+from tests.test_config import client
 
 def test_predict_image_file():
     with open("data/text/test.csv", "rb") as f:

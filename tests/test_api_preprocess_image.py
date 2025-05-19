@@ -1,9 +1,7 @@
-from fastapi.testclient import TestClient
-from app.main import app
+from tests.test_config import client
 from PIL import Image
 import io
 
-client = TestClient(app)
 
 def test_image_preprocess_endpoint():
     # Créer une image RGB simple (rouge)
@@ -13,7 +11,7 @@ def test_image_preprocess_endpoint():
     img_bytes.seek(0)
 
     response = client.post(
-        "/preprocessing/image",
+        "/preprocess/image",
         files={"file": ("test.png", img_bytes, "image/png")}
     )
 

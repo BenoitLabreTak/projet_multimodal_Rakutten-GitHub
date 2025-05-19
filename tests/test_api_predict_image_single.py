@@ -1,9 +1,5 @@
 import pytest
-from fastapi.testclient import TestClient
-from app.main import app
-import os
-
-client = TestClient(app)
+from tests.test_config import client
 
 def test_predict_image_single():
     image_path = "data/images/test/image_55029630_product_1486851.jpg"

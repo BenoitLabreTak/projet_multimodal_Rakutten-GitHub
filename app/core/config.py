@@ -1,5 +1,5 @@
 import os
-BASE_DIR = r"/Users/mehdimalhas/DataScientest/Datascientest-Rakuten/Projet MLOps/rakuten_mlops"
+BASE_DIR = r"."
 
 # Licence for translastion Google API
 # The path to the Google Cloud service account key file
