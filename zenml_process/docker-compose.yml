@@ -52,11 +52,14 @@ services:
       dockerfile: docker/Dockerfile
     #command: ["run-first-time.sh"]
     environment:
-      - ZENML_SERVER_URL=http://zenml-server:8080
+      - ZENML_STORE_URL=http://zenml-server:8080
+      - ZENML_STORE_USERNAME=$ZENML_USERNAME
+      - ZENML_STORE_PASSWORD=$ZENML_PASSWORD
       - MINIO_SERVER_URL=http://s3:9000
       - MINIO_ROOT_USER=$MINIO_ROOT_USER
       - MINIO_ROOT_PASSWORD=$MINIO_ROOT_PASSWORD
       - MINIO_DEFAULT_BUCKETS=zenml-bucket
+      #- ZENML_STORE_API_KEY= A définir ou voir script run-apikey.sh
     volumes:
       - ../datasets:/app/datasets
       - ../images:/app/images

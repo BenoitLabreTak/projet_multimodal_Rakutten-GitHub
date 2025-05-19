@@ -30,22 +30,33 @@ Aller dans le menu `Buckets` et cliquez sur le bouton à droite `Create Bucket +
 Vous devez alors renseigner comme `Bucket Name` la valeur `zenml-bucket`. Vous pouvez laisser les autres valeurs telles quelles et cliquer sur le bouton `Create Bucket`.
 
 
+## Authentification sur le serveur ZenML
+# Via variable d'environnement
+Les variables d'environnements définies dans le conteneur pipeline du docker-compose `ZENML_STORE_URL`, `ZENML_STORE_USERNAME`, `ZENML_STORE_PASSWORD` permettent de ne pas avoir à s'authentifier.
+
+## Via la commande login
+Pour vous authentifier depuis votre autre poste sans définir de variable d'environnement, vous lancer la commande
+```bash
+zenml login http://localhost:8080
+``
+Elle affiche le message suivant:
+```console
+Authenticating to ZenML server 'http://zenml-server:8080' using the web login...
+If your browser did not open automatically, please open the following URL into your browser to proceed with the authentication:
+
+http://zenml-server:8080/devices/verify?device_id=fune-chaine-aleatoire
+```
+
+Il faut récupérer l'url indiquée complète, remplacer la valeur `zenml-server` par `localhost` (zenml-server est un nom qui n'est résolu que pour l'intérieur du réseau Docker, pas sur notre machine) et ouvrir un navigateur.
+Renseigner alors le login et mot de passe tels qu'indiqués dans le fichier `.env` dans les variables `ZENML_USERNAME` et `ZENML_PASSWORD`.
+Cette étape sera nécessaire à chaque conteneur lancé qui a besoin de se connecter au serveur ZenML. Il serait possible de créer une clé d'API pour faciliter.
+
 ## Création de la stack et artifact-store dans ZenML
 
 Lancer la commande suivante:
 ```bash
 docker compose run pipeline /app/run-firsttime.sh 
 ```
-Cette commande a besoin de s'authentifier sur le serveur ZenML. Elle affiche le message suivant:
-```
-Authenticating to ZenML server 'http://zenml-server:8080' using the web login...
-If your browser did not open automatically, please open the following URL into your browser to proceed with the authentication:
-
-http://zenml-server:8080/devices/verify?device_id=fune-chaine-aleatoire
-```
-Il faut récupérer l'url indiquée complète, remplacer la valeur `zenml-server` par `localhost` (zenml-server est un nom qui n'est résolu que pour l'intérieur du réseau Docker, pas sur notre machine) et ouvrir un navigateur.
-Renseigner alors le login et mot de passe tels qu'indiqués dans le fichier `.env` dans les variables `ZENML_USERNAME` et `ZENML_PASSWORD`.
-Cette étape sera nécessaire à chaque conteneur lancé qui a besoin de se connecter au serveur ZenML. Il serait possible de créer une clé d'API pour faciliter.
 
 # Récupérer les données avec Dagshub
 A compléter:
@@ -56,7 +67,6 @@ Vous pouvez remplacer `version_modele` par n'importe quelle chaîne de caractèr
 ```bash
 docker compose run pipeline /app/run.sh version_modele
 ```
-Cette commande a besoin de s'authentifier sur le serveur ZenML également. Voir explications dans la rubrique Creation de la stack et artifact-store.
 
 # Modifier le pipeline
 A chaque modification du pipeline, il est nécessaire d'actualiser l'image Docker construite qui le contient si vous souhaitez déployer ce conteneur.
