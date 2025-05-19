@@ -108,7 +108,7 @@ class ProductImageDataset(Dataset):
 
 
 @step(enable_cache=True)
-def imagedata_load() -> Tuple[
+def imagedata_load(frac = 0.01, random_state = 42) -> Tuple[
     Annotated[pd.DataFrame, "raw_dataset_train"],
     Annotated[pd.DataFrame, "raw_dataset_test"],
     Annotated[pd.DataFrame, "raw_dataset_val"]
@@ -118,14 +118,14 @@ def imagedata_load() -> Tuple[
     val_image_folder = r"images/val"
     test_image_folder = r"images/test"
 
-    train_file = "./datasets/Train.csv"
-    val_file = "./datasets/Val.csv"
-    test_file = "./datasets/Test.csv"
+    train_file = "./datasets/train.csv"
+    val_file = "./datasets/val.csv"
+    test_file = "./datasets/test.csv"
 
     # Chargement des fichiers CSV 
-    df_train = pd.read_csv(train_file)
-    df_val = pd.read_csv(val_file)
-    df_test = pd.read_csv(test_file)
+    df_train = pd.read_csv(train_file).sample(frac= frac, random_state=random_state)
+    df_val = pd.read_csv(val_file).sample(frac= frac, random_state=random_state)
+    df_test = pd.read_csv(test_file).sample(frac= frac, random_state=random_state)
 
     # Création des chemins d’images pour chaque ligne
     df_train["image_path"] = df_train.apply(lambda row: os.path.join(train_image_folder, f"image_{row['imageid']}_product_{row['productid']}.jpg"), axis=1)

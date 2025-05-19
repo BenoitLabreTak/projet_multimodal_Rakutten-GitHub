@@ -61,8 +61,8 @@ services:
       - MINIO_DEFAULT_BUCKETS=zenml-bucket
       #- ZENML_STORE_API_KEY= A définir ou voir script run-apikey.sh
     volumes:
-      - ../datasets:/app/datasets
-      - ../images:/app/images
+      - ../data/text:/app/datasets
+      - ../data/images:/app/images
       - ../models:/app/models
       # pour permettre docker in docker
       - /var/run/docker.sock:/var/run/docker.sock
