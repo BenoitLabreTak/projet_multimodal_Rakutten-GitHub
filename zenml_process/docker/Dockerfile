@@ -17,5 +17,3 @@ RUN chmod +x ./run.sh && \
     chmod +x ./run-firsttime.sh 
 # Commande par défaut (à adapter selon le besoin)
 #CMD ["/bin/bash"]
-
-# apt update && apt install docker.io -y

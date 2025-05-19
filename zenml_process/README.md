@@ -55,7 +55,7 @@ Cette étape sera nécessaire à chaque conteneur lancé qui a besoin de se conn
 
 Lancer la commande suivante:
 ```bash
-docker compose run pipeline /app/run-firsttime.sh 
+docker compose run --rm pipeline /app/run-firsttime.sh 
 ```
 
 # Récupérer les données avec Dagshub
@@ -65,7 +65,7 @@ Le script a besoin de récupérer les données dans les dossiers parents `../mod
 # Lancer un pipeline
 Vous pouvez remplacer `version_modele` par n'importe quelle chaîne de caractère qui représente le nom de version qui sera associé aux modèles par ZenML.
 ```bash
-docker compose run pipeline /app/run.sh version_modele
+docker compose run --rm pipeline /app/run.sh version_modele
 ```
 
 # Modifier le pipeline
@@ -77,5 +77,5 @@ docker compose build
 
 Il est possible de travailler dans le conteneur avec la commande
 ```bash
-docker compose run -it pipeline bash
+docker compose run --rm -it pipeline bash
 ```

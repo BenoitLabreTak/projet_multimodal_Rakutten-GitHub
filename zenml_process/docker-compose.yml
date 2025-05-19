@@ -59,6 +59,8 @@ services:
       - MINIO_ROOT_USER=$MINIO_ROOT_USER
       - MINIO_ROOT_PASSWORD=$MINIO_ROOT_PASSWORD
       - MINIO_DEFAULT_BUCKETS=zenml-bucket
+      # nécessaire pour reconnaitre pipeline comme un module python
+      - PYTHONPATH=. 
       #- ZENML_STORE_API_KEY= A définir ou voir script run-apikey.sh
     volumes:
       - ../data/text:/app/datasets
@@ -68,6 +70,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       # pour le dev: à retirer pour la prod
       - ./pipelines:/app/pipelines
+      - ./utils:/app/utils
     networks:
       - front-tier
 
