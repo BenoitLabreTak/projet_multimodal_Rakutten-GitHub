@@ -31,14 +31,14 @@
 	// Use 'postCreateCommand' to run commands after the container is created.
 	//"postCreateCommand": "pip3 install --user -r requirements.txt"
 	"postCreateCommand": "sudo apt update && sudo apt install -y graphviz && pip install --user -r requirements.txt && python3 -m venv .venv --system-site-packages",
-    "features": {
+    "features": { /*décommenter pour utiliser gpu
    		  "ghcr.io/devcontainers/features/nvidia-cuda": {
 			"installCudnn": true,
 			"installNvtx": false,
 			"installToolkit": false,
 			"cudaVersion": "12.8",
 			"cudnnVersion": "automatic"
-		},
+		},*/
 		"docker-in-docker": {
             "version": "latest",
             "moby": true,
