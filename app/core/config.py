@@ -12,6 +12,7 @@ DATAFRAME_DIR_TRAIN = os.path.join(DATAFRAME_DIR, "train.csv")
 DATAFRAME_DIR_TEST = os.path.join(DATAFRAME_DIR, "test.csv")
 DATAFRAME_DIR_VALID = os.path.join(DATAFRAME_DIR, "val.csv")
 
+
 # Images paths
 # The path to the images directory
 MEDIA_DIR = os.path.join(BASE_DIR, "media")
@@ -20,6 +21,21 @@ DATASET_IMAGE_DIR_TRAIN = os.path.join(IMAGE_DIR, "train")
 DATASET_IMAGE_DIR_VALID = os.path.join(IMAGE_DIR, "val")
 DATASET_IMAGE_DIR_TEST = os.path.join(IMAGE_DIR, "test")
 DEFAULT_FOLDER = os.path.join(IMAGE_DIR, "test")
+
+#Retraining paths
+DATAFRAME_DIR_1PCT = os.path.join(BASE_DIR, "data/retraining_text")
+DATAFRAME_DIR_TRAIN_1PCT = os.path.join(DATAFRAME_DIR_1PCT, "train_1pct.csv")
+DATAFRAME_DIR_TEST_1PCT = os.path.join(DATAFRAME_DIR_1PCT, "test_1pct.csv")
+DATAFRAME_DIR_VALID_1PCT = os.path.join(DATAFRAME_DIR_1PCT, "val_1pct.csv")
+
+IMAGE_DIR_1PCT = os.path.join(BASE_DIR, "data/retraining_images")
+DATASET_IMAGE_DIR_TRAIN_1PCT = os.path.join(IMAGE_DIR_1PCT, "train")
+DATASET_IMAGE_DIR_VALID_1PCT = os.path.join(IMAGE_DIR_1PCT, "val")
+DATASET_IMAGE_DIR_TEST_1PCT = os.path.join(IMAGE_DIR_1PCT, "test")
+DEFAULT_FOLDER_1PCT = os.path.join(IMAGE_DIR_1PCT, "test")
+
+
+
 
 # Presentation image paths
 SVMMATRIX = os.path.join(MEDIA_DIR, "confusion matrix TFIDF SVM.png")

@@ -17,3 +17,8 @@ __pycache__/
 # Pour éviter les fichiers temporaires
 *.log
 *.tmp
+tmp_trainer/
+
+# fichiers de travail
+*.ipynb
+*.zip
