@@ -60,3 +60,31 @@ jobs:
       - name: Push Docker image
         run: |
           docker push ${{ steps.vars.outputs.image_name }}
+
+  retrain:
+    #needs: docker-build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        #TODO: récupérer dynamiquement IMAGE_NAME
+      - name: Run container and call /train/retrain/text
+        run: |
+          echo "IMAGE_NAME=ghcr.io/benoitlabretak/benoitlabretak-projet-multimodal-rakutten-github/app:fabrice-unittests" > githubaction.env
+          docker compose --env-file githubaction.env up -d --quiet-pull
+
+          # Wait for the API to be up
+          for i in {1..30}; do
+            if curl -s http://localhost:8000/docs; then
+              echo "API is up!"
+              break
+            fi
+            echo "Waiting for API..."
+            sleep 2
+          done
+
+          # Call the endpoint
+          curl -X 'POST' http://localhost:8000/train/retrain/text?epochs=1&batch_size=8 -d ''
+
+          # Stop the container
+          docker compose down

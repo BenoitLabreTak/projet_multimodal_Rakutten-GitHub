@@ -1,5 +1,7 @@
 services:
   app:
+    # pour utilisation dans github actions sans reconstruction de l'image
+    image: ${IMAGE_NAME}
     build: 
       context: .
       dockerfile: ./infrastructure/docker/Dockerfile
