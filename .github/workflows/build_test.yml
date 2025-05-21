@@ -1,0 +1,62 @@
+name: FastAPI + Pytest Integration
+
+on:
+  push:
+    branches: [ "fabrice_unittests" ]
+  pull_request:
+    branches: [ "fabrice_unittests" ]
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run pytest 
+        run: pytest -rA --tb=short
+
+  docker-build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: docker compose build
+
+      - name: Normalize branch name
+        id: vars
+        run: |
+          BRANCH="${GITHUB_REF_NAME}"
+          # Minuscule, remplace / et autres caractères spéciaux par -
+          SAFE_BRANCH=$(echo "$BRANCH" | tr '[:upper:]' '[:lower:]' | sed 's#[^a-z0-9]#-#g')
+          SAFE_OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]' | sed 's#[^a-z0-9]#-#g')
+          SAFE_REPOSITORY=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]' | sed 's#[^a-z0-9]#-#g')
+          IMAGE_NAME=ghcr.io/$SAFE_OWNER/$SAFE_REPOSITORY/app:$SAFE_BRANCH
+          echo "image_name=$IMAGE_NAME" >> $GITHUB_OUTPUT
+
+      - name: Tag Docker image
+        run: |
+          
+          docker tag projet_multimodal_rakutten-github-app:latest ${{ steps.vars.outputs.image_name }}
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ steps.vars.outputs.image_name }}
