@@ -8,7 +8,7 @@ def test_predict_image_single():
     
     with open(image_path, "rb") as f:
         response = client.post(
-            "/image/predict_image",  
+            "/predict/image/manual",  
             files={"file": ("image.jpg", f, "image/jpeg")}
         )
 
