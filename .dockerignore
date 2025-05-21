@@ -1,0 +1,12 @@
+**/__pycache__
+**/.DS_Store
+.*
+data
+tests
+infrastructure
+scripts
+tmp_trainer
+dvc*
+**/*.ipynb
+README.md
+pytest.ini

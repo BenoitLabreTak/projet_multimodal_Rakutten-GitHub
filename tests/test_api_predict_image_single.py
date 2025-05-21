@@ -1,3 +1,4 @@
+import os
 import pytest
 from tests.test_config import client
 

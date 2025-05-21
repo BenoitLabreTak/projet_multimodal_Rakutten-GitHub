@@ -3,7 +3,7 @@ from tests.test_config import client
 
 def test_predict_image_file():
     with open("data/text/test.csv", "rb") as f:
-        response = client.post("/image/predict_dataframe", files={"file": ("test.csv", f, "text/csv")})
+        response = client.post("/predict/image/file", files={"file": ("test.csv", f, "text/csv")})
     assert response.status_code == 200
     result = response.json()
     assert isinstance(result, list)
