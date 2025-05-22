@@ -1,0 +1,17 @@
+data/
+models/
+*/models
+mlruns/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+.env
+.DS_Store
+.vscode/
+.idea/
+tmp_trainer/
+logs/
+.ipynb_checkpoints

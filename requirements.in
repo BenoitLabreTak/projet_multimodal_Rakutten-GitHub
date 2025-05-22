@@ -1,0 +1,42 @@
+# Core ML/Data
+numpy
+pandas
+scikit-learn
+matplotlib
+seaborn
+tqdm
+nltk
+
+# Deep Learning
+tensorflow
+#keras
+tf-keras
+torch
+torchvision
+sentencepiece
+accelerate>=0.26.0
+
+# HuggingFace + Evaluation
+transformers
+datasets
+evaluate
+
+# Web/API
+fastapi==0.103.2
+starlette==0.27.0
+uvicorn
+python-multipart
+python-dotenv
+
+# Plotting / Utils
+plotly
+beautifulsoup4
+unidecode
+#googletrans
+
+# Monitoring/DevOps
+mlflow
+dagshub
+prometheus_fastapi_instrumentator
+pytest
+

@@ -1,0 +1,52 @@
+services:
+  api:
+    build: .
+    container_name: rakuten_mlops_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app/models:/app/app/models
+      - ./data:/app/data
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    networks:
+      - rakuten_network
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    env_file:
+      - .env
+    networks:
+      - rakuten_network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./monitoring/grafana:/var/lib/grafana
+      - ./monitoring/grafana/provisioning/grafana-provisioning.yaml:/etc/grafana/provisioning/dashboards/dashboards.yml
+      - ./monitoring/grafana/provisioning/prometheus-datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+    env_file:
+      - .env
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    networks:
+      - rakuten_network
+
+networks:
+  rakuten_network:
+    driver: bridge

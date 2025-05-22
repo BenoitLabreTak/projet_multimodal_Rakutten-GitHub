@@ -1,0 +1,29 @@
+# Ignorer les fichiers temporaires, cache, etc.
+__pycache__
+*.pyc
+.DS_Store
+.Dockerfile
+.vscode/
+.idea/
+*.log
+.venv/
+.ipynb_checkpoints
+
+# Empêche les fichiers de modèle d’être re-trackés
+*.pt
+*.pth
+*.joblib
+*.safetensors
+
+# Pour éviter les fichiers temporaires
+*.log
+*.tmp
+tmp_trainer/
+
+# fichiers de travail
+*.ipynb
+*.zip
+
+# pour éviter de faire grossir le git (sera suivi avec DVC)
+models
+data
