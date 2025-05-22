@@ -60,6 +60,10 @@ docker-compose up --build
 ```bash
 pytest tests/
 ```
+ou
+```bash
+docker compose run api pytest tests/
+```
 
 Lancement via API (Swagger ou cURL) :
 
