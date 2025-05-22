@@ -11,9 +11,11 @@ services:
       - .env
     environment:
       - PYTHONUNBUFFERED=1
-    restart: unless-stopped
+    # on désactive le redémarrage automatique pour simuler des pannes
+    #restart: unless-stopped
     networks:
-      - rakuten_network
+      - front-tier
+      - back-tier
 
   prometheus:
     image: prom/prometheus:latest
@@ -21,22 +23,54 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
     env_file:
       - .env
+    links:
+      - cadvisor:cadvisor
+      - alertmanager:alertmanager
+    depends_on:
+      - cadvisor
     networks:
-      - rakuten_network
+      - back-tier
 
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - 8080:8080
+    networks:
+      - back-tier
+    restart: always
+    deploy:
+      mode: global
+  alertmanager:
+    image: prom/alertmanager
+    ports:
+      - 9093:9093
+    volumes:
+      - ./monitoring/alertmanager/:/etc/alertmanager/
+    networks:
+      - back-tier
+    restart: always
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
       - "3000:3000"
     volumes:
-      - ./monitoring/grafana:/var/lib/grafana
       - ./monitoring/grafana/provisioning/grafana-provisioning.yaml:/etc/grafana/provisioning/dashboards/dashboards.yml
       - ./monitoring/grafana/provisioning/prometheus-datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yml
       - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+      - grafana_data:/var/lib/grafana
     env_file:
       - .env
     environment:
@@ -45,8 +79,12 @@ services:
     depends_on:
       - prometheus
     networks:
-      - rakuten_network
+      - back-tier
 
 networks:
-  rakuten_network:
-    driver: bridge
+  back-tier:
+  front-tier:
+
+volumes:
+    prometheus_data: {}
+    grafana_data: {}

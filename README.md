@@ -88,6 +88,8 @@ Sortie JSON :
 - Toutes les routes sont instrumentées avec `prometheus_fastapi_instrumentator`.
 - **Prometheus** collecte les métriques.
 - **Grafana** peut être configuré avec un dashboard personnalisé (ex : latence, taux de succès, requêtes/s).
+  exemple de dashboard à importer: https://grafana.com/grafana/dashboards/18739-fastapi-observability/
+  exemple de dashboard à importer pour les métriques conteneurs: https://grafana.com/grafana/dashboards/10619-docker-host-container-overview/ 
 
 ---
 

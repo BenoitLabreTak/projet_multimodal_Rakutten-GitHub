@@ -1,0 +1,20 @@
+groups:
+- name: alertes_infra
+  rules:
+    # Alert for any instance that is unreachable for >2 minutes.
+  - alert: service_down
+    expr: up == 0
+    for: 2m
+    labels:
+      severity: page
+    annotations:
+      summary: "Instance {{ $labels.instance }} down"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 2 minutes."
+  - alert: high_load
+    expr: sum by(instance) (rate(container_cpu_usage_seconds_total{image!=""}[2m])) > 0.8
+    for: 2m
+    labels:
+      severity: page
+    annotations:
+      summary: "Instance {{ $labels.instance }} under high CPU load (cAdvisor)"
+      description: "{{ $labels.instance }} is using more than 80% CPU (cAdvisor) for over 2 minutes."
