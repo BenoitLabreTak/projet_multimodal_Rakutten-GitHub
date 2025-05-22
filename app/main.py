@@ -45,3 +45,10 @@ app.include_router(evaluate_image_router, prefix="/evaluate", tags=["Evaluation 
 # APIs Training
 app.include_router(train_text_api_router, prefix="/train", tags=["Training / Text"])
 app.include_router(train_image_api_router, prefix="/train", tags=["Training / Image"])
+
+
+# Prometheus metrics
+from prometheus_fastapi_instrumentator import Instrumentator
+
+instrumentator = Instrumentator()
+instrumentator.instrument(app).expose(app)

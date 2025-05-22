@@ -8,6 +8,9 @@ __pycache__/
 .idea/
 *.log
 .venv/
+.ipynb_checkpoints
+requirements.in
+
 # Empêche les fichiers de modèle d’être re-trackés
 *.pt
 *.pth

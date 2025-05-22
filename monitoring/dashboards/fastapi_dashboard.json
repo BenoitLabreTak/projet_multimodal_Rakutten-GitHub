@@ -1,0 +1,25 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "panels": [
+    {
+      "type": "graph",
+      "title": "HTTP Requests",
+      "targets": [
+        {
+          "expr": "sum(rate[1m]) by (method)",
+          "format": "time_series",
+          "intervalFactor": 2,
+          "legendFormat": "{{method}}",
+          "refId": "A"
+        }
+      ],
+      "datasource": "Prometheus"
+    }
+  ],
+  "schemaVersion": 26,
+  "title": "FastAPI Metrics",
+  "uid": "fastapi-dashboard",
+  "version": 1
+}

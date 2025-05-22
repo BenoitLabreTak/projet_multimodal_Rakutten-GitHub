@@ -19,6 +19,7 @@ import os
 from tqdm import tqdm
 
 import app.core.config as config 
+from app.services.image_preprocessing import preprocess_image_from_pil
 
 # === DÉTECTION DE L'APPAREIL ===
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -139,7 +140,21 @@ def predict_dataframe(df, imageid_col="imageid", productid_col="productid",
             continue
 
         try:
-            image_tensor = preprocess_image(image_path)
+            # Ouvrir l'image avec PIL
+            image = Image.open(image_path).convert("RGB")
+
+            # Prétraitement avec ta fonction
+            processed_pil_image = preprocess_image_from_pil(image)
+
+            # Conversion en tenseur PyTorch prêt pour le modèle
+            transform_final = transforms.Compose([
+                transforms.ToTensor(),
+                transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                    std=[0.229, 0.224, 0.225])
+            ])
+            image_tensor = transform_final(processed_pil_image).unsqueeze(0)
+
+            # Prédiction
             proba = predict(model, image_tensor)
             pred_index = np.argmax(proba)
             pred_label = all_labels[pred_index]

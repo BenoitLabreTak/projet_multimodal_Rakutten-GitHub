@@ -30,7 +30,7 @@ async def preprocess_text_manual(
 
 
 @router.post("/text/file", summary="Text preprocessing (cvs file entry)")
-async def preprocess_text(
+async def preprocess_text_file(
     file: UploadFile = File(...),
     sample_size: int = Query(5, description="Number of samples to process (max)")
 ):

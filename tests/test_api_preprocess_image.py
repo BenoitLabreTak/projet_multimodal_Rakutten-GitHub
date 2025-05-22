@@ -13,7 +13,7 @@ def test_image_preprocess_endpoint():
     img_bytes.seek(0)
 
     response = client.post(
-        "/preprocessing/image",
+        "/preprocess/image",
         files={"file": ("test.png", img_bytes, "image/png")}
     )
 

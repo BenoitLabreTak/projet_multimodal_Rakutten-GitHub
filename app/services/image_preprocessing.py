@@ -1,19 +1,8 @@
 # === IMPORTS DES LIBRAIRIES ===
-
-import os
-import random
 import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from torchvision import transforms
-from bs4 import BeautifulSoup
-import random
-
 from PIL import Image, ImageEnhance
-
-import torchvision.transforms as transforms
-
 import tensorflow as tf
+from torchvision import transforms
 
 import app.core.config as config 
 

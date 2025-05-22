@@ -26,7 +26,6 @@ async def predict_text_api(
     }
 
 
-
 @router.post("/text/file", summary="Text prediction (cvs file entry)")
 async def predict_text_api_file(
     file: UploadFile = File(...),

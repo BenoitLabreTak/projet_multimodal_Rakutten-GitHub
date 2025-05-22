@@ -1,10 +1,15 @@
 from fastapi import APIRouter, Query
 from fastapi.responses import JSONResponse
 from app.services.model_text_training import run_retrain_camembert_model
+import traceback
+import logging
 
 router = APIRouter()
 
-@router.post("/retrain/text", summary="Retrain Camembert model")
+@router.post("/text", summary="Retrain Camembert model", responses={
+    500: {"description": "Internal Server Error"}
+})
+
 def retrain_camembert_model(
     epochs: int = Query(3, description="Number of training epochs"),
     batch_size: int = Query(4, description="Batch size for training")
@@ -22,6 +27,6 @@ def retrain_camembert_model(
             "model_path": result["model_path"]
         }
     except Exception as e:
-        import traceback
+        logging.exception("❌ Erreur lors du retrain Camembert")
         traceback.print_exc()
         return JSONResponse(status_code=500, content={"error": str(e)})

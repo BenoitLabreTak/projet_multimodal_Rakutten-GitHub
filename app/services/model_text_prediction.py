@@ -6,9 +6,10 @@ import html
 import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
-from googletrans import Translator
+#from googletrans import Translator
 
 import app.core.config as config 
+from app.services.text_preprocessing import preprocess_txt
 
 from sklearn.metrics import log_loss
 from sklearn.metrics import f1_score
@@ -41,19 +42,19 @@ def preprocess_text(text):
     text = re.sub(r"[^a-zA-Z0-9\sàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ]", " ", text)
     return re.sub(r'\s+', ' ', text).strip()
 
-google_translator = Translator()
+#google_translator = Translator()
 
-def maybe_translate_to_french(text):
-    try:
-        if not isinstance(text, str) or text.strip() == "":
-            return ""
-        detected = google_translator.detect(text).lang
-        if detected != "fr":
-            translated = google_translator.translate(text, src=detected, dest="fr")
-            return translated.text
-        return text
-    except Exception as e:
-        return text
+#def maybe_translate_to_french(text):
+#    try:
+#        if not isinstance(text, str) or text.strip() == "":
+#            return ""
+#        detected = google_translator.detect(text).lang
+#        if detected != "fr":
+#            translated = google_translator.translate(text, src=detected, dest="fr")
+#            return translated.text
+#        return text
+#    except Exception as e:
+#        return text
 
 # === CHARGEMENT DU MODÈLE CAMEMBERT ===
 def load_text_model():
@@ -81,8 +82,10 @@ def predict_text_model(designation, description):
         2585: "Bricolage", 2705: "Livre neuf", 2905: "Jeu PC",
     }
 
-    raw_text = f"{designation} {description}"
-    text = preprocess_text(raw_text)
+    #raw_text = f"{designation} {description}"
+    #text = preprocess_txt(raw_text)
+    df_tmp = pd.DataFrame([{"designation": designation, "description": description}])
+    text = preprocess_txt(df_tmp).iloc[0]
     inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True).to(device)
 
     with torch.no_grad():
@@ -133,8 +136,10 @@ def evaluate_text_model(designation, description, true_label):
         2585: "Bricolage", 2705: "Livre neuf", 2905: "Jeu PC",
     }
 
-    raw_text = f"{designation} {description}"
-    text = preprocess_text(raw_text)
+    #raw_text = f"{designation} {description}"
+    df_tmp = pd.DataFrame([{"designation": designation, "description": description}])
+    text = preprocess_txt(df_tmp).iloc[0]
+    #text = preprocess_txt(raw_text)
     inputs = tokenizer(text, return_tensors="pt", truncation=True, padding=True).to(device)
 
     with torch.no_grad():

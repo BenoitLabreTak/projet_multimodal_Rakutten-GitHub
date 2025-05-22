@@ -1,6 +1,7 @@
 import pandas as pd
 import re
 import html
+import os
 import warnings
 import random
 import nltk.tokenize
@@ -19,12 +20,15 @@ nltk.download('punkt_tab', quiet=True)
 #os.environ["GOOGLE_APPLICATION_CREDENTIALS"] =config.PATH_GOOGLE_APPLICATION_CREDENTIALS
 #translator = translate.Client()
 
-
 def clean_BERT_mBERT(text):
     """Nettoie le texte en supprimant les balises HTML, entités, accents et caractères spéciaux."""
     if not isinstance(text, str) or text.strip() == "":
         return ""
-    text = BeautifulSoup(text, "html.parser").get_text()
+    
+    # Correction du warning BeautifulSoup
+    if not os.path.exists(text):  # On ne traite pas comme HTML si c'est un chemin valide
+        text = BeautifulSoup(text, "html.parser").get_text()
+
     text = html.unescape(text)
     text = re.sub(r"[^a-zA-Z0-9\sàâäéèêëîïôöùûüçÀÂÄÉÈÊËÎÏÔÖÙÛÜÇ]", " ", text)
     text = re.sub(r'\s+', ' ', text).strip()

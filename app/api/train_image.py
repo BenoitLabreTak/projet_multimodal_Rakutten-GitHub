@@ -2,10 +2,14 @@ from fastapi import APIRouter, Query
 from fastapi.responses import JSONResponse
 
 from app.services.model_image_training import run_retrain_resnet_model
+import traceback
+import logging
 
 router = APIRouter()
 
-@router.post("/train/retrain/image", summary="Retrain ResNet image model")
+@router.post("/image", summary="Retrain ResNet image model", responses={
+    500: {"description": "Internal Server Error"}
+})
 async def retrain_resnet_model(
     epochs: int = Query(3, description="Number of training epochs"),
     batch_size: int = Query(32, description="Batch size for training")
@@ -24,4 +28,6 @@ async def retrain_resnet_model(
         }
 
     except Exception as e:
+        logging.exception("❌ Erreur lors du retrain Resnet50")
+        traceback.print_exc()
         return JSONResponse(status_code=500, content={"error": str(e)})
