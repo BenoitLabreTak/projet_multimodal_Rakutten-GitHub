@@ -1,9 +1,6 @@
-import pytest
-from fastapi.testclient import TestClient
-from app.main import app
 import os
-
-client = TestClient(app)
+import pytest
+from tests.test_config import client
 
 def test_predict_image_single():
     image_path = "data/images/test/image_55029630_product_1486851.jpg"
@@ -11,7 +8,7 @@ def test_predict_image_single():
     
     with open(image_path, "rb") as f:
         response = client.post(
-            "/image/predict_image",  
+            "/predict/image/manual",  
             files={"file": ("image.jpg", f, "image/jpeg")}
         )
 

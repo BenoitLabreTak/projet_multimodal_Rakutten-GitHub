@@ -1,9 +1,6 @@
 import pandas as pd
 from io import BytesIO
-from app.main import app
-from fastapi.testclient import TestClient
-
-client = TestClient(app)
+from tests.test_config import client
 
 def test_evaluate_image_file_api():
     # Exemple de DataFrame avec les colonnes attendues

@@ -1,12 +1,9 @@
 import pytest
-from fastapi.testclient import TestClient
-from app.main import app
-
-client = TestClient(app)
+from tests.test_config import client
 
 def test_predict_text_file():
     with open("data/text/test.csv", "rb") as f:
-        response = client.post("/text/predict_file", files={"file": ("test.csv", f, "text/csv")})
+        response = client.post("/predict/text/manual", files={"file": ("test.csv", f, "text/csv")})
     assert response.status_code == 200
     result = response.json()
     assert isinstance(result, list)

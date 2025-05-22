@@ -1,13 +1,10 @@
 import pandas as pd
 from io import BytesIO
-from fastapi.testclient import TestClient
-from app.main import app
-
-client = TestClient(app)
+from tests.test_config import client
 
 def test_text_preprocess_endpoint():
     response = client.post(
-        "/preprocessing/text/manual",
+        "/preprocess/text/manual",
         data={"designation": "Lego City", "description": "Camion de pompier avec échelle"}
     )
 

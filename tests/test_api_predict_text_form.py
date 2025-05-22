@@ -1,8 +1,5 @@
 import pytest
-from fastapi.testclient import TestClient
-from app.main import app
-
-client = TestClient(app)
+from tests.test_config import client
 
 def test_predict_text_form():
     response = client.post(
