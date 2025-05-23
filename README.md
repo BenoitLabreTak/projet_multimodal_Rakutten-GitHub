@@ -19,8 +19,16 @@ Ce projet met en œuvre un pipeline MLOps complet pour la classification de prod
 - Python 3.12+
 - Outils Python :
   ```bash
-  pip install pip-tools pytest zenml
+  pip install pip-tools pytest zenml dvc dvc-s3
   ```
+  ou
+  ```bash
+  pip install -r requirements-dev.txt
+  ```
+- Récupération des données depuis DVC (voir les commandes d'authentification DVC sur [https://dagshub.com/BenoitLabreTak/projet_multimodal_Rakutten-GitHub](https://dagshub.com/BenoitLabreTak/projet_multimodal_Rakutten-GitHub)), puis lancer la commande:
+```bash
+dvc pull
+```
 
 ### 2. Installation des dépendances
 
