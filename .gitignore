@@ -23,6 +23,7 @@ tmp_trainer/
 # fichiers de travail
 *.ipynb
 *.zip
+*.zen
 
 # pour éviter de faire grossir le git (sera suivi avec DVC)
 /data

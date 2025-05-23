@@ -19,7 +19,7 @@ Ce projet met en œuvre un pipeline MLOps complet pour la classification de prod
 - Python 3.12+
 - Outils Python :
   ```bash
-  pip install pip-tools pytest zenml dvc dvc-s3
+  pip install pip-tools pytest zenml[server] dvc dvc-s3
   ```
   ou
   ```bash
@@ -123,7 +123,10 @@ def auto_eval_and_retrain_pipeline():
 
 ```bash
 zenml init
-zenml pipeline run auto_eval_and_retrain_pipeline
+python zenml/text_auto_eval_and_retrain_pipeline.py
+python zenml/image_auto_eval_and_retrain_pipeline.py
+# consulter le dashboard:
+zenml login --local --port 9000
 ```
 
 ---
