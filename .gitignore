@@ -25,5 +25,4 @@ tmp_trainer/
 *.zip
 
 # pour éviter de faire grossir le git (sera suivi avec DVC)
-models
-data
+/data
