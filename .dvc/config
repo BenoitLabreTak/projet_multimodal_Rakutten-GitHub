@@ -1,0 +1,6 @@
+[core]
+    analytics = false
+    remote = origin
+['remote "origin"']
+    url = s3://dvc
+    endpointurl = https://dagshub.com/BenoitLabreTak/projet_multimodal_Rakutten-GitHub.s3
