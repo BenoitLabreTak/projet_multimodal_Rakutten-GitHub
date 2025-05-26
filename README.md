@@ -140,6 +140,19 @@ python pipelines/image_auto_eval_and_retrain_pipeline.py
 zenml login --local --port 9000
 ```
 
+### Refactorisation
+POC Réentrainement des modèles sans utilisation de l'API.
+Avantages:
+- n'impacte pas la disponibilité de l'API aux utilisateurs finaux
+- n'expose pas sur Internet les processus de réentrainement
+- utilise les artefacts pour conserver les étapes intermédiaires:
+  - permet de faire du drift monitoring en comparant plusieurs versions de modèles et données
+  - permet de reprendre des réentrainements interrompus
+- peut être paramétré pour exécuter les steps avec Docker, Airflow, Kubernetes pour plus de scalabilité, de paramétrage de ressources cpu, et d'efficience
+Inconvénients:
+- Il faut réimplémenter le processus de réentrainement qui l'est déjà dans l'API
+Voir [pipeline_refactor/README.md](pipeline_refactor/README.md)
+
 ---
 
 ## 📁 Arborescence
@@ -155,6 +168,7 @@ rakuten_mlops/
 ├── data/
 ├── monitoring/ : fichiers de paramétrages liés au monitoring
 ├── pipelines/ : fichiers liés au pipeline de réentraineement
+├── pipelines_refactor/ : fichiers liés au pipeline de réentraineement détaillé
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.in
