@@ -1,0 +1,11 @@
+# à compléter et renommer en config.yml
+route:
+  receiver: "slack"
+
+receivers:
+  - name: "slack"
+    slack_configs:
+        - send_resolved: true
+          username: 'monusername_slack'
+          channel: '#dec24_bmle_mlops_rakuten'
+          api_url: 'https://hooks.slack.com/services/xxxx/yyyyy'

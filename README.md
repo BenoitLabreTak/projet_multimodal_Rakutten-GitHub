@@ -37,7 +37,25 @@ pip-compile requirements.in --output-file=requirements.txt
 pip install -r requirements.txt
 ```
 
-### 3. Lancement des services
+### 3. Configurer l'envoi de message sur Slack
+
+#### Créer une url webhook Slack
+- Aller sur [https://api.slack.com/apps/](https://api.slack.com/apps/)
+- identifiez-vous
+- Créer une nouvelle application vide (new app from scratch). 
+- Dans le menu "Settings" sur la gauche, cliquez sur "Incoming Webhooks"
+- Activez "Activate Incoming Webhooks" et récupérez l'url indiquée
+
+#### Configurez Alertmanager
+- Recopier le fichier `monitoring/alertmanager/config-example.yml` vers `monitoring/alertmanager/config.yml` (Le fichier config.yml n'est pas suivi par Git car il contient des infos sensibles)
+- compléter les informations nécessaires dans le fichier `config.yml`: 
+  - `username`: le nom d'utilisateur Slack qui a été utilisé lors de l'étape précédente
+  - `api_url`: l'url récupérée lors de l'étape précédente
+
+#### Configurez le pipeline ZenML
+- définissez une variable d'environnement nommée `SLACK_WEBHOOK_URL` contenant l'url récupérée.
+
+### 4. Lancement des services
 
 ```bash
 docker-compose up --build
@@ -123,6 +141,8 @@ def auto_eval_and_retrain_pipeline():
 
 ```bash
 zenml init
+# Pour envoyer des messages Slack, modifiez ci-dessous l'url "Incoming webhook" (voir étape 3)
+export SLACK_WEBHOOK_URL=https://hooks.slack.com/services/xxxx/yyyyy
 python zenml/text_auto_eval_and_retrain_pipeline.py
 python zenml/image_auto_eval_and_retrain_pipeline.py
 # consulter le dashboard:

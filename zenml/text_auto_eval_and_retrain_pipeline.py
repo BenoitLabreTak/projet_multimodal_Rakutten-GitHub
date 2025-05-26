@@ -7,6 +7,7 @@ from typing_extensions import Annotated
 from typing import Dict
 
 import requests
+import config
 
 
 @step
@@ -58,13 +59,20 @@ def retrain_step(retrain_triggered: bool) -> Annotated[str, "model_path"]:
 @step
 def notify_slack_on_success_step(retrain_triggered: bool, model_str : str) -> None:
     """
-    Step de notification Slack (dummy).
-    À implémenter: envoyer une notification si retrain_triggered est True.
+    Step de notification Slack
     """
     if retrain_triggered:
-        print(f"Slack notification: Nouveau modèle sauvegardé: {model_str}")
+        msg = f"Nouveau modèle texte sauvegardé : {model_str}"
+        print(msg)
+        requests.post(config.SLACK_WEBHOOK_URL, 
+                      json={"text": msg},
+                      headers={"Content-Type": "application/json"})
     else:
-        print("Slack notification: Pas de nouveau modèle sauvegardé: les performances n'ont pas été améliorées.")
+        msg = "Pas de nouveau modèle texte sauvegardé : les performances n'ont pas été améliorées."
+        print(msg)
+        requests.post(config.SLACK_WEBHOOK_URL, 
+                      json={"text": msg},
+                      headers={"Content-Type": "application/json"})
 
 
 @pipeline
@@ -77,4 +85,5 @@ def text_auto_eval_and_retrain_pipeline():
 
 
 if __name__ == "__main__":
+    print(config.SLACK_WEBHOOK_URL)
     text_auto_eval_and_retrain_pipeline()
