@@ -19,7 +19,7 @@ Ce projet met en œuvre un pipeline MLOps complet pour la classification de prod
 - Python 3.12+
 - Outils Python :
   ```bash
-  pip install pip-tools pytest zenml dvc dvc-s3
+  pip install pip-tools pytest zenml[server] dvc dvc-s3
   ```
   ou
   ```bash
@@ -37,7 +37,25 @@ pip-compile requirements.in --output-file=requirements.txt
 pip install -r requirements.txt
 ```
 
-### 3. Lancement des services
+### 3. Configurer l'envoi de message sur Slack
+
+#### Créer une url webhook Slack
+- Aller sur [https://api.slack.com/apps/](https://api.slack.com/apps/)
+- identifiez-vous
+- Créer une nouvelle application vide (new app from scratch). 
+- Dans le menu "Settings" sur la gauche, cliquez sur "Incoming Webhooks"
+- Activez "Activate Incoming Webhooks" et récupérez l'url indiquée
+
+#### Configurez Alertmanager
+- Recopier le fichier `monitoring/alertmanager/config-example.yml` vers `monitoring/alertmanager/config.yml` (Le fichier config.yml n'est pas suivi par Git car il contient des infos sensibles)
+- compléter les informations nécessaires dans le fichier `config.yml`: 
+  - `username`: le nom d'utilisateur Slack qui a été utilisé lors de l'étape précédente
+  - `api_url`: l'url récupérée lors de l'étape précédente
+
+#### Configurez le pipeline ZenML
+- définissez une variable d'environnement nommée `SLACK_WEBHOOK_URL` contenant l'url récupérée.
+
+### 4. Lancement des services
 
 ```bash
 docker-compose up --build
@@ -109,21 +127,17 @@ Sortie JSON :
 - Réentraînement déclenché uniquement si le score F1 est insuffisant
 - Notification Slack si un nouveau modèle est sauvegardé
 
-### Exemple de pipeline :
-
-```python
-@pipeline
-def auto_eval_and_retrain_pipeline():
-    metrics = evaluate_model()
-    retrain_triggered = conditional_retrain(metrics)
-    notify_slack_on_success(retrain_triggered)
-```
-
 ### Exécution
+- s'assurer d'avoir démarrer le docker-compose avant
 
 ```bash
 zenml init
-zenml pipeline run auto_eval_and_retrain_pipeline
+# Pour envoyer des messages Slack, modifiez ci-dessous l'url "Incoming webhook" (voir étape 3)
+export SLACK_WEBHOOK_URL=https://hooks.slack.com/services/xxxx/yyyyy
+python pipelines/text_auto_eval_and_retrain_pipeline.py
+python pipelines/image_auto_eval_and_retrain_pipeline.py
+# consulter le dashboard:
+zenml login --local --port 9000
 ```
 
 ---
@@ -134,18 +148,21 @@ zenml pipeline run auto_eval_and_retrain_pipeline
 rakuten_mlops/
 ├── app/
 │   ├── api/
-│   ├── core/
-│   ├── models/
+│   ├── core/ : fichier de configuration de l'API
+│   ├── models/ : les modèles utilisés ou générés par l'application
 │   └── services/
 ├── tests/
-├── models/
 ├── data/
+├── monitoring/ : fichiers de paramétrages liés au monitoring
+├── pipelines/ : fichiers liés au pipeline de réentraineement
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.in
 ├── requirements.txt
+├── requirements-dev.txt : modules nécessaires pour exécuter le pipeline de réentrainement sur le poste
 ├── pytest.ini
-└── README.md
+├── README.md
+└── run.py : lancement de l'application app
 ```
 
 ---
@@ -164,3 +181,11 @@ rakuten_mlops/
 **Mehdi Malhas**  
 > Machine Learning Engineer | MLOps  
 > [LinkedIn](https://www.linkedin.com/in/mehdi-malhas)
+
+**Fabrice Moreau**
+> Machine Learning Engineer | MLOps  
+> [LinkedIn](https://www.linkedin.com/in/fabrice-moreau)
+
+**Benoit Labre-Takam**
+
+**Nicolas Haddad**

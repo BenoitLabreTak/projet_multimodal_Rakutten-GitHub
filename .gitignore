@@ -6,7 +6,7 @@ __pycache__
 .vscode/
 .idea/
 *.log
-.venv/
+.venv*/
 .ipynb_checkpoints
 
 # Empêche les fichiers de modèle d’être re-trackés
@@ -23,6 +23,7 @@ tmp_trainer/
 # fichiers de travail
 *.ipynb
 *.zip
+*.zen
 
 # pour éviter de faire grossir le git (sera suivi avec DVC)
 /data
