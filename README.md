@@ -127,24 +127,15 @@ Sortie JSON :
 - Réentraînement déclenché uniquement si le score F1 est insuffisant
 - Notification Slack si un nouveau modèle est sauvegardé
 
-### Exemple de pipeline :
-
-```python
-@pipeline
-def auto_eval_and_retrain_pipeline():
-    metrics = evaluate_model()
-    retrain_triggered = conditional_retrain(metrics)
-    notify_slack_on_success(retrain_triggered)
-```
-
 ### Exécution
+- s'assurer d'avoir démarrer le docker-compose avant
 
 ```bash
 zenml init
 # Pour envoyer des messages Slack, modifiez ci-dessous l'url "Incoming webhook" (voir étape 3)
 export SLACK_WEBHOOK_URL=https://hooks.slack.com/services/xxxx/yyyyy
-python zenml/text_auto_eval_and_retrain_pipeline.py
-python zenml/image_auto_eval_and_retrain_pipeline.py
+python pipelines/text_auto_eval_and_retrain_pipeline.py
+python pipelines/image_auto_eval_and_retrain_pipeline.py
 # consulter le dashboard:
 zenml login --local --port 9000
 ```
@@ -163,6 +154,7 @@ rakuten_mlops/
 ├── tests/
 ├── models/
 ├── data/
+├── pipelines/
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.in
@@ -187,3 +179,11 @@ rakuten_mlops/
 **Mehdi Malhas**  
 > Machine Learning Engineer | MLOps  
 > [LinkedIn](https://www.linkedin.com/in/mehdi-malhas)
+
+**Fabrice Moreau**
+> Machine Learning Engineer | MLOps  
+> [LinkedIn](https://www.linkedin.com/in/fabrice-moreau)
+
+**Benoit Labre-Takam**
+
+**Nicolas Haddad**

@@ -11,14 +11,14 @@ import config
 
 
 @step
-def evaluate_model_step() -> Annotated[
+def evaluate_text_model_step() -> Annotated[
     Dict[
         Annotated[float, "average_confidence_score"],
         Annotated[float, "weighted_f1_score"]
     ], "scores"
 ]:
     """
-    Step d'évaluation automatique du modèle (dummy).
+    Step d'évaluation automatique du modèle.
     À implémenter: charger le modèle, évaluer sur un sous-ensemble, retourner les métriques.
     """
     with open('data/retraining_text/test_1pct.csv', 'rb') as f:
@@ -32,9 +32,9 @@ def evaluate_model_step() -> Annotated[
 
 
 @step
-def conditional_retrain_step(metrics: dict) -> Annotated[bool, "trigger_retrain"]:
+def conditional_text_retrain_step(metrics: dict) -> Annotated[bool, "trigger_retrain"]:
     """
-    Step de réentraînement conditionnel (dummy).
+    Step de réentraînement conditionnel.
     si le score F1 < seuil, réentraîner et retourner True, sinon False.
     """
     f1_score = metrics.get("weighted_f1_score", 0)
@@ -43,7 +43,7 @@ def conditional_retrain_step(metrics: dict) -> Annotated[bool, "trigger_retrain"
     return retrain
 
 @step(model=Model(name="text_model", artifact_type=ArtifactType.MODEL))
-def retrain_step(retrain_triggered: bool) -> Annotated[str, "model_path"]:
+def text_retrain_step(retrain_triggered: bool) -> Annotated[str, "model_path"]:
     """
     Step de réentrainement
     """
@@ -57,7 +57,7 @@ def retrain_step(retrain_triggered: bool) -> Annotated[str, "model_path"]:
             return None
 
 @step
-def notify_slack_on_success_step(retrain_triggered: bool, model_str : str) -> None:
+def text_notify_slack_on_success_step(retrain_triggered: bool, model_str : str) -> None:
     """
     Step de notification Slack
     """
@@ -77,13 +77,12 @@ def notify_slack_on_success_step(retrain_triggered: bool, model_str : str) -> No
 
 @pipeline
 def text_auto_eval_and_retrain_pipeline():
-    metrics = evaluate_model_step()
-    retrain_triggered = conditional_retrain_step(metrics)
+    metrics = evaluate_text_model_step()
+    retrain_triggered = conditional_text_retrain_step(metrics)
     if retrain_triggered:
-        model_str = retrain_step(retrain_triggered)
-        notify_slack_on_success_step(retrain_triggered, model_str)
+        model_str = text_retrain_step(retrain_triggered)
+        text_notify_slack_on_success_step(retrain_triggered, model_str)
 
 
 if __name__ == "__main__":
-    print(config.SLACK_WEBHOOK_URL)
     text_auto_eval_and_retrain_pipeline()
