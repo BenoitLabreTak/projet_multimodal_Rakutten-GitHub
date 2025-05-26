@@ -148,19 +148,21 @@ zenml login --local --port 9000
 rakuten_mlops/
 ├── app/
 │   ├── api/
-│   ├── core/
-│   ├── models/
+│   ├── core/ : fichier de configuration de l'API
+│   ├── models/ : les modèles utilisés ou générés par l'application
 │   └── services/
 ├── tests/
-├── models/
 ├── data/
-├── pipelines/
+├── monitoring/ : fichiers de paramétrages liés au monitoring
+├── pipelines/ : fichiers liés au pipeline de réentraineement
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.in
 ├── requirements.txt
+├── requirements-dev.txt : modules nécessaires pour exécuter le pipeline de réentrainement sur le poste
 ├── pytest.ini
-└── README.md
+├── README.md
+└── run.py : lancement de l'application app
 ```
 
 ---
