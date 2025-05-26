@@ -1,0 +1,9 @@
+.env
+.pipeline
+.git
+.zenml
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+docker-compose.yml
