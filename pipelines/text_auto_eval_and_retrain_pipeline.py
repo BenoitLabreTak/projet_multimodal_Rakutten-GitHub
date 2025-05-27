@@ -54,7 +54,7 @@ def text_retrain_step(retrain_triggered: bool) -> Annotated[str, "model_path"]:
         if output["model_saved"]:
             return output["model_path"]
         else:
-            return None
+            return ""
 
 @step
 def text_notify_slack_on_success_step(retrain_triggered: bool, model_str : str) -> None:
@@ -75,7 +75,7 @@ def text_notify_slack_on_success_step(retrain_triggered: bool, model_str : str) 
                       headers={"Content-Type": "application/json"})
 
 
-@pipeline
+@pipeline(enable_cache=False)
 def text_auto_eval_and_retrain_pipeline():
     metrics = evaluate_text_model_step()
     retrain_triggered = conditional_text_retrain_step(metrics)

@@ -1,15 +1,15 @@
 groups:
 - name: alertes_infra
   rules:
-    # Alert for any instance that is unreachable for >2 minutes.
+    # Alert for any instance that is unreachable for > 30 seconds.
   - alert: service_down
     expr: up == 0
-    for: 2m
+    for: 30s
     labels:
       severity: page
     annotations:
       summary: "Instance {{ $labels.instance }} down"
-      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 2 minutes."
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 30 seconds."
   - alert: high_load
     expr: sum by(instance) (rate(container_cpu_usage_seconds_total{image!=""}[2m])) > 0.8
     for: 2m
