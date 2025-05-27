@@ -57,15 +57,22 @@ pip install -r requirements.txt
 
 ### 4. Lancement des services
 
+Pour démarrer les services et programmer des pipelines toutes les 4 heures:
 ```bash
-docker-compose up --build
+./start.sh
 ```
+Le script `stop.sh` sert à supprimer l'exécution des pipelines toutes les 4 heures.
 
 - **API Swagger** : [http://localhost:8000/docs](http://localhost:8000/docs)
 - **Prometheus** : [http://localhost:9090](http://localhost:9090)
 - **Grafana** : [http://localhost:3000](http://localhost:3000)
   - Login : `admin` / Password : `admin` (par défaut)
 
+
+Il est possible de lancer l'api et le monitoring avec la seule commande
+```bash
+docker-compose up
+```
 ---
 
 ## 📡 Endpoints principaux
@@ -134,8 +141,7 @@ Sortie JSON :
 zenml init
 # Pour envoyer des messages Slack, modifiez ci-dessous l'url "Incoming webhook" (voir étape 3)
 export SLACK_WEBHOOK_URL=https://hooks.slack.com/services/xxxx/yyyyy
-python pipelines/text_auto_eval_and_retrain_pipeline.py
-python pipelines/image_auto_eval_and_retrain_pipeline.py
+python pipelines/main.py
 # consulter le dashboard:
 zenml login --local --port 9000
 ```
@@ -178,6 +184,10 @@ rakuten_mlops/
 
 ## 🤖 Auteur
 
+**Benoit Labre-Takam**
+
+**Nicolas Haddad**
+
 **Mehdi Malhas**  
 > Machine Learning Engineer | MLOps  
 > [LinkedIn](https://www.linkedin.com/in/mehdi-malhas)
@@ -185,7 +195,3 @@ rakuten_mlops/
 **Fabrice Moreau**
 > Machine Learning Engineer | MLOps  
 > [LinkedIn](https://www.linkedin.com/in/fabrice-moreau)
-
-**Benoit Labre-Takam**
-
-**Nicolas Haddad**

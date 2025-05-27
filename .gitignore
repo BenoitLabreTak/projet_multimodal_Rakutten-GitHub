@@ -8,6 +8,7 @@ __pycache__
 *.log
 .venv*/
 .ipynb_checkpoints
+logs/
 
 # Empêche les fichiers de modèle d’être re-trackés
 *.pt
